@@ -1,0 +1,78 @@
+var config = {};
+
+config.redis = {};
+config.ad2usb = {};
+config.email = {};
+config.twilio = {};
+config.time = {};
+config.time.start = {};
+config.time.end = {};
+
+// when to start at night (start at 10:30 pm)
+config.time.start.hour = 22;
+config.time.start.minute = 30;
+
+// when to end in the morning (stop at 5 am)
+config.time.end.hour = 5;
+config.time.end.minute = 0;
+
+config.email.from = "sample <youremail@gmail.com>";
+config.email.to = "sample <youremail@gmail.com>";
+config.email.server = {
+     user:    "youremail", 
+     password:"password", 
+     host:    "smtp.gmail.com", 
+     ssl:     true
+  };
+  
+config.twilio.accountSid = '';
+config.twilio.authToken = '';
+config.twilio.to = ['+15555555555'];
+config.twilio.from = '+15555555555';
+
+config.zones = {
+    "001": {name: 'Front Door', type: 'door'},
+    "002": {name: 'Front Hall', type: 'motion'},
+    "003": {name: 'Family Room', type: 'motion'},
+    "004": {name: 'Back Door', type: 'door'},
+    "006": {name: 'Laundry Hall', type: 'motion'}
+};
+
+config.cameras = {
+    "001": {
+        name: 'Front Porch',
+        host: '192.168.1.100',
+        port: 1234,
+        user: 'username',
+        pass: 'password'
+        },
+    "003": {
+        name: 'Family Room',
+        host: '192.168.1.100',
+        port: 1234,
+        user: 'username',
+        pass: 'password'
+        },
+    "004": {
+        name: 'Back Door',
+        host: '192.168.1.100',
+        port: 1234,
+        user: 'username',
+        pass: 'password'
+        },
+    "006": {
+        name: 'Bradley Room',
+        host: '192.168.1.100',
+        port: 1234,
+        user: 'username',
+        pass: 'password'
+        }
+};
+
+config.redis.host = '192.168.1.100';
+config.redis.port = 6379;
+
+config.ad2usb.host = '192.168.1.100';
+config.ad2usb.port = 10000;
+
+module.exports = config;

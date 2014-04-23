@@ -1,0 +1,22 @@
+{
+  "name": "alarmbrew",
+  "description": "A node based motion sensor that connects to the ad2usb and takes ip camera pictures of motion..",
+  "author": "Ross Brodbeck <hross@hross.net>",
+  "version": "0.0.1",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hross/alarmbrew.git"
+  },
+  "engines": {
+    "node": ">=0.8.1"
+  },
+  "dependencies": {
+    "ad2usb": ">= 0.0.0",
+    "foscam": ">= 0.0.0",
+    "moment": ">= 0.0.0",
+    "emailjs": ">= 0.0.0",
+    "redis": ">= 0.0.0",
+    "twilio": ">= 0.0.0"
+  }
+}
