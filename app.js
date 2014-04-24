@@ -77,7 +77,7 @@ var sendEmail = function(subject, body, attachmentPath) {
         subject: subject
       };
   
-      if (attachmentPath) {
+      if (attachmentPath && fs.existsSync(attachmentPath)) {
         eml.attachment = [
           {path: attachmentPath, name: path.basename(attachmentPath)}
          ];
