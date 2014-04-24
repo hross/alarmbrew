@@ -85,13 +85,19 @@ var sendEmail = function(subject, body, attachmentPath) {
       
       console.log("sending email...", eml);
       
-      server.send(eml, function(err, message) { console.log(err || message); });
+      server.send(eml, function(err, message) {
+        console.log(err || message);
+        if (attachmentPath) {
+          fs.unlink(attachmentPath); // remove the picture after we send
+        }
+      });
     }
   });
 }
 
 var alarm = Alarm.connect(config.ad2usb.host, config.ad2usb.port, function() {
   // connected to interface
+  console.log("connected to host: " + config.ad2usb.host);
   
   alarm.on('raw', function(sec1, sec2, sec3) {
     // compute time checks
@@ -125,7 +131,6 @@ var alarm = Alarm.connect(config.ad2usb.host, config.ad2usb.port, function() {
           cam.snapshot(path, function() {
               sendEmail(subject, body, path);
               sendSms(subject);
-              fs.unlink(path); // remove the picture after we send
           });
         } else {
           // no attachment but send the email
