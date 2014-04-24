@@ -1,6 +1,6 @@
 {
   "name": "alarmbrew",
-  "description": "A node based motion sensor that connects to the ad2usb and takes ip camera pictures of motion..",
+  "description": "A node based motion sensor that connects to the ad2usb and takes ip camera pictures of motion.",
   "author": "Ross Brodbeck <hross@hross.net>",
   "version": "0.0.1",
   "main": "app.js",
