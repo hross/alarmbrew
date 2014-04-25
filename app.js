@@ -5,7 +5,7 @@ var config = require('./config.js');
 var email = require("emailjs");
 var cam = require('foscam')
 var Alarm = require('ad2usb');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var redis = require("redis");
 var path = require('path');
 var fs = require('fs');
@@ -100,22 +100,30 @@ var alarm = Alarm.connect(config.ad2usb.host, config.ad2usb.port, function() {
   // connected to interface
   console.log("connected to host: " + config.ad2usb.host);
   
+  // set time zone
+  process.env.TZ = config.time.tz;
+  
   alarm.on('raw', function(sec1, sec2, sec3) {
-    // compute time checks
-    var m = moment().utc();
-    m.second(0);
     
-    // create start time from config
-    var startTime = moment().utc();
-    startTime.hour(config.time.start.hour);
-    startTime.minute(config.time.start.minute);
+    if (sec3.indexOf('"FAULT') == 0) {
+      
+      // compute time checks
+      var m = moment();
+
+      // create start time from config
+      var startTime = moment();
+      startTime.hour(config.time.start.hour);
+      startTime.minute(config.time.start.minute);
+      
+      // create end time from config
+      var endTime = moment();
+      endTime.hour(config.time.end.hour);
+      endTime.minute(config.time.end.minute);
     
-    // create end time from config
-    var endTime = moment().utc();
-    endTime.hour(config.time.end.hour);
-    endTime.minute(config.time.end.minute);
-    
-    if ((m > startTime && m < endTime) && sec3.indexOf('"FAULT') == 0) {
+      if (m < startTime || m < endTime) {
+        return;
+      }
+      
       console.log('fault detected');
       
       var zone = config.zones[sec2];
