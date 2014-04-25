@@ -106,16 +106,16 @@ var alarm = Alarm.connect(config.ad2usb.host, config.ad2usb.port, function() {
     m.second(0);
     
     // create start time from config
-    var startTime = moment();
+    var startTime = moment().utc();
     startTime.hour(config.time.start.hour);
     startTime.minute(config.time.start.minute);
     
     // create end time from config
-    var endTime = moment();
+    var endTime = moment().utc();
     endTime.hour(config.time.end.hour);
     endTime.minute(config.time.end.minute);
-
-    if ((m > startTime || m < endTime) && sec3.indexOf('"FAULT') == 0) {
+    
+    if ((m > startTime && m < endTime) && sec3.indexOf('"FAULT') == 0) {
       console.log('fault detected');
       
       var zone = config.zones[sec2];
