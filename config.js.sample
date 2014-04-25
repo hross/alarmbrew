@@ -9,11 +9,13 @@ config.time.start = {};
 config.time.end = {};
 
 // when to start at night (start at 10:30 pm)
-config.time.start.hour = 22;
+// these are expressed in UTC!
+config.time.start.hour = 2;
 config.time.start.minute = 30;
 
 // when to end in the morning (stop at 5 am)
-config.time.end.hour = 5;
+// these are expressed in UTC!
+config.time.end.hour = 9;
 config.time.end.minute = 0;
 
 config.email.from = "sample <youremail@gmail.com>";

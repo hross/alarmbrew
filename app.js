@@ -9,6 +9,7 @@ var moment = require('moment');
 var redis = require("redis");
 var path = require('path');
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
 var client = redis.createClient(config.redis.port, config.redis.host);
 
@@ -101,11 +102,15 @@ var alarm = Alarm.connect(config.ad2usb.host, config.ad2usb.port, function() {
   
   alarm.on('raw', function(sec1, sec2, sec3) {
     // compute time checks
-    var m = moment();
+    var m = moment().utc();
+    m.second(0);
+    
+    // create start time from config
     var startTime = moment();
     startTime.hour(config.time.start.hour);
     startTime.minute(config.time.start.minute);
     
+    // create end time from config
     var endTime = moment();
     endTime.hour(config.time.end.hour);
     endTime.minute(config.time.end.minute);
@@ -123,14 +128,16 @@ var alarm = Alarm.connect(config.ad2usb.host, config.ad2usb.port, function() {
         if (config.cameras[sec2]) {
           cam.setup(config.cameras[sec2]);
           
-          var path =
+          mkdirp('./pictures', function(err) {
+            var path =
             './pictures/' +
               moment().format('YYYYMMDD_HHmmss') + '_' + sec2 +
               '.jpg'
           
-          cam.snapshot(path, function() {
-              sendEmail(subject, body, path);
-              sendSms(subject);
+            cam.snapshot(path, function() {
+                sendEmail(subject, body, path);
+                sendSms(subject);
+            });
           });
         } else {
           // no attachment but send the email
